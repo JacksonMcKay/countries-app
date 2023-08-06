@@ -8,7 +8,7 @@ To demonstrate that I can write code to any prospective employers and to skill u
 
 ## Why did you choose Next.js?
 
-To round out my skillset more (as I'm mostly experienced with Angular) and because it provides a nice structure to build React applications in (not to mention the cool static and server-side rendering capabilities to get great Lighthouse scores).
+To round out my skillset more (as I'm more experienced in Angular) and because it provides a nice structure to build React applications in (not to mention the cool static and server-side rendering capabilities to get great Lighthouse scores).
 
 ## Running locally
 
