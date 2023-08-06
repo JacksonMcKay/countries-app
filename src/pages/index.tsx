@@ -1,25 +1,27 @@
 import { Country, getAllCountries } from '@/apis/countries';
 import CountryTile from '@/components/country-tile';
-import { Alert, AlertIcon, Heading, Spinner } from '@chakra-ui/react';
+import { Alert, AlertIcon, Button, Heading, Spinner } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
-  const [countries, setCountries] = useState<Country[] | null>(null);
-  const [status, setStatus] = useState<'success' | 'error' | 'loading'>('loading');
+  const [countries, setCountries] = useState<{
+    countries: Country[] | null;
+    status: 'success' | 'error' | 'loading';
+    callRetry: boolean;
+  }>({ countries: null, status: 'loading', callRetry: false });
 
   useEffect(() => {
     async function getCountries() {
       const fetchResult = await getAllCountries();
       if (fetchResult.status === 'success') {
-        setCountries(fetchResult.countries);
-        setStatus('success');
+        setCountries({ countries: fetchResult.countries, status: 'success', callRetry: countries.callRetry });
       } else {
-        setStatus('error');
+        setCountries({ status: 'error', countries: countries.countries, callRetry: countries.callRetry });
       }
     }
     getCountries();
-  }, []);
+  }, [countries.callRetry]);
 
   return (
     <main>
@@ -27,16 +29,38 @@ export default function Home() {
         <title>Countries app</title>
         <meta name='description' content='An app for finding information about a country' />
       </Head>
-      <Heading as='h1'>Countries</Heading>
-      {status === 'error' && (
-        <Alert status='error'>
-          <AlertIcon />
-          An error occurred fetching countries
-        </Alert>
+      <header>
+        <Heading as='h1' className='text-center'>
+          Countries
+        </Heading>
+        <hr className='block mt-4 pb-2 mx-[-1rem]'></hr>
+      </header>
+      {countries.status === 'error' && (
+        <div className='mt-4 flex justify-center w-full'>
+          <Alert status='error' className='max-w-xl'>
+            <AlertIcon />
+            <div className='flex items-center justify-between w-full'>
+              An error occurred fetching countries
+              <Button
+                colorScheme='red'
+                className='mt-2'
+                onClick={() =>
+                  setCountries({ status: 'loading', callRetry: !countries.callRetry, countries: countries.countries })
+                }
+              >
+                Retry
+              </Button>
+            </div>
+          </Alert>
+        </div>
       )}
-      {status === 'loading' && <Spinner />}
+      {countries.status === 'loading' && (
+        <div className='mt-4 flex justify-center w-full'>
+          <Spinner size='xl' />
+        </div>
+      )}
 
-      {status === 'success' && getCountriesList(countries)}
+      {countries.status === 'success' && getCountriesList(countries.countries)}
     </main>
   );
 }

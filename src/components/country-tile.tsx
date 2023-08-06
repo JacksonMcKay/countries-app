@@ -8,7 +8,9 @@ export default function CountryTile(country: Country) {
   return (
     <Card className='p-4 h-full'>
       <div className='w-full flex justify-between items-center mb-1'>
-        <Heading>{country.name.common}</Heading>
+        <Heading as='h2' size='lg'>
+          {country.name.common}
+        </Heading>
         <Text>{country.continents.join(', ')}</Text>
       </div>
 
