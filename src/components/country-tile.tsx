@@ -11,7 +11,7 @@ export default function CountryTile(country: Country) {
         <Heading as='h2' size='lg'>
           {country.name.common}
         </Heading>
-        <Text>{country.continents.join(', ')}</Text>
+        <Text className='ml-1'>{country.continents.join(', ')}</Text>
       </div>
 
       <Image
