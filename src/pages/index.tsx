@@ -21,14 +21,6 @@ export default function Home() {
     getCountries();
   }, []);
 
-  const countriesList = countries?.map((country) => {
-    return (
-      <div key={country.cca3}>
-        <CountryTile {...country}></CountryTile>
-      </div>
-    );
-  });
-
   return (
     <main>
       <Head>
@@ -44,7 +36,22 @@ export default function Home() {
       )}
       {status === 'loading' && <Spinner />}
 
-      {status === 'success' && (countriesList?.length ?? 0 > 0 ? countriesList : <div>No countries</div>)}
+      {status === 'success' && getCountriesList(countries)}
     </main>
+  );
+}
+
+function getCountriesList(countries: Country[] | null) {
+  if (!countries || countries.length === 0) {
+    return <div>No countries</div>;
+  }
+  return (
+    <div className='flex flex-wrap'>
+      {countries.map((country) => (
+        <div className='p-2 w-full sm:w-[50%] xl:w-[33.3%] 2xl:w-[25%]' key={country.cca3}>
+          <CountryTile {...country}></CountryTile>
+        </div>
+      ))}
+    </div>
   );
 }
