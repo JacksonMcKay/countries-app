@@ -29,11 +29,10 @@ export default function Home() {
         <title>Countries app</title>
         <meta name='description' content='An app for finding information about a country' />
       </Head>
-      <header>
+      <header className='mx-[-1rem] mt-[-1rem] pt-4 pb-4 mb-6 shadow'>
         <Heading as='h1' className='text-center'>
           Countries
         </Heading>
-        <hr className='block mt-4 pb-2 mx-[-1rem]'></hr>
       </header>
       {countries.status === 'error' && (
         <div className='mt-4 flex justify-center w-full'>
