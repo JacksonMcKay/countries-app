@@ -57,32 +57,36 @@ export default function Home() {
         </div>
       )}
       {/* Let screen reader users know which view mode they're in because we're hiding the selected button */}
-      <span className='sr-only' id='viewMode' tabIndex={-1}>
-        {`Using ${listStyle === 'compact' ? 'compact' : 'pretty'} view mode`}
-      </span>
-      <div className='mt-4 flex justify-center w-full'>
-        <TabButton
-          isSelected={listStyle === 'compact'}
-          onClick={() => {
-            // Honestly, it would make more sense to use actual routing instead of doing this focus trick when the view changes. Sticking with this though
-            document.getElementById('viewMode')?.focus();
-            setListStyle('compact');
-          }}
-          label='Switch to compact view mode'
-        >
-          Compact
-        </TabButton>
-        <TabButton
-          isSelected={listStyle === 'full'}
-          onClick={() => {
-            document.getElementById('viewMode')?.focus();
-            setListStyle('full');
-          }}
-          label='Switch to pretty view mode'
-        >
-          Pretty
-        </TabButton>
-      </div>
+      {countries.status !== 'error' && (
+        <>
+          <span className='sr-only' id='viewMode' tabIndex={-1}>
+            {`Using ${listStyle === 'compact' ? 'compact' : 'pretty'} view mode`}
+          </span>
+          <div className='mt-4 flex justify-center w-full'>
+            <TabButton
+              isSelected={listStyle === 'compact'}
+              onClick={() => {
+                // Honestly, it would make more sense to use actual routing instead of doing this focus trick when the view changes. Sticking with this though
+                document.getElementById('viewMode')?.focus();
+                setListStyle('compact');
+              }}
+              label='Switch to compact view mode'
+            >
+              Compact
+            </TabButton>
+            <TabButton
+              isSelected={listStyle === 'full'}
+              onClick={() => {
+                document.getElementById('viewMode')?.focus();
+                setListStyle('full');
+              }}
+              label='Switch to pretty view mode'
+            >
+              Pretty
+            </TabButton>
+          </div>
+        </>
+      )}
 
       {countries.status === 'loading' && (
         <div className='mt-4 flex justify-center w-full'>
@@ -90,12 +94,16 @@ export default function Home() {
         </div>
       )}
 
-      {countries.status === 'success' && getCountriesList(countries.countriesList, listStyle, countries.showAll)}
-
-      {!countries.showAll && (
-        <div className='mt-4 flex justify-center w-full'>
-          <Button onClick={() => setCountries({ ...countries, showAll: true })}>Show all</Button>
-        </div>
+      {countries.status === 'success' && (
+        <>
+          {getCountriesList(countries.countriesList, listStyle, countries.showAll)}
+          {!countries.showAll && (
+            // Note: It would be nice to pull focus so screen readers aren't booted off the edge of the page. TODO when the countries are links
+            <div className='mt-4 flex justify-center w-full'>
+              <Button onClick={() => setCountries({ ...countries, showAll: true })}>Show all</Button>
+            </div>
+          )}
+        </>
       )}
     </main>
   );
