@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, useColorModeValue } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 type Props = {
@@ -12,12 +12,17 @@ type Props = {
  * Note: not a 'true' tab, just a button to switch view type
  */
 export function TabButton({ children, isSelected, onClick, label }: Props) {
+  // These match the chakra buttons
+  const nonSelectedBgColor = useColorModeValue('gray.100', 'whiteAlpha.200');
+  const nonSelectedTextColor = useColorModeValue('gray.800', 'whiteAlpha.900');
+
   return (
     <Box
       as={isSelected ? 'div' : 'button'}
       className={'first:rounded-l-lg last:rounded-r-lg'}
-      backgroundColor={isSelected ? 'messenger.700' : 'gray.200'}
-      textColor={isSelected ? 'white' : 'black'}
+      backgroundColor={isSelected ? 'messenger.700' : nonSelectedBgColor}
+      textColor={isSelected ? 'white' : nonSelectedTextColor}
+      fontWeight='semibold'
       padding={2}
       display='inline-block'
       onClick={onClick}
