@@ -1,23 +1,28 @@
 import { Country, getAllCountries } from '@/apis/countries';
+import { CountryListItem } from '@/components/country-list-item';
 import CountryTile from '@/components/country-tile';
+import { TabButton } from '@/components/tab-button';
 import { Alert, AlertIcon, Button, Heading, Spinner } from '@chakra-ui/react';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Home() {
   const [countries, setCountries] = useState<{
-    countries: Country[] | null;
+    countriesList: Country[] | null;
     status: 'success' | 'error' | 'loading';
     callRetry: boolean;
-  }>({ countries: null, status: 'loading', callRetry: false });
+    showAll: boolean;
+  }>({ countriesList: null, status: 'loading', callRetry: false, showAll: false });
+  const [listStyle, setListStyle] = useState<'compact' | 'full'>('compact');
 
+  // Note: Turns out this isn't an idiomatic way of using useEffect. Maybe refactor later
   useEffect(() => {
     async function getCountries() {
       const fetchResult = await getAllCountries();
       if (fetchResult.status === 'success') {
-        setCountries({ countries: fetchResult.countries, status: 'success', callRetry: countries.callRetry });
+        setCountries({ ...countries, countriesList: fetchResult.countries, status: 'success' });
       } else {
-        setCountries({ status: 'error', countries: countries.countries, callRetry: countries.callRetry });
+        setCountries({ ...countries, status: 'error' });
       }
     }
     getCountries();
@@ -43,9 +48,7 @@ export default function Home() {
               <Button
                 colorScheme='red'
                 className='mt-2'
-                onClick={() =>
-                  setCountries({ status: 'loading', callRetry: !countries.callRetry, countries: countries.countries })
-                }
+                onClick={() => setCountries({ ...countries, status: 'loading', callRetry: !countries.callRetry })}
               >
                 Retry
               </Button>
@@ -53,26 +56,70 @@ export default function Home() {
           </Alert>
         </div>
       )}
+      {/* Let screen reader users know which view mode they're in because we're hiding the selected button */}
+      <span className='sr-only' id='viewMode' tabIndex={-1}>
+        {`Using ${listStyle === 'compact' ? 'compact' : 'pretty'} view mode`}
+      </span>
+      <div className='mt-4 flex justify-center w-full'>
+        <TabButton
+          isSelected={listStyle === 'compact'}
+          onClick={() => {
+            // Honestly, it would make more sense to use actual routing instead of doing this focus trick when the view changes. Sticking with this though
+            document.getElementById('viewMode')?.focus();
+            setListStyle('compact');
+          }}
+          label='Switch to compact view mode'
+        >
+          Compact
+        </TabButton>
+        <TabButton
+          isSelected={listStyle === 'full'}
+          onClick={() => {
+            document.getElementById('viewMode')?.focus();
+            setListStyle('full');
+          }}
+          label='Switch to pretty view mode'
+        >
+          Pretty
+        </TabButton>
+      </div>
+
       {countries.status === 'loading' && (
         <div className='mt-4 flex justify-center w-full'>
           <Spinner size='xl' />
         </div>
       )}
 
-      {countries.status === 'success' && getCountriesList(countries.countries)}
+      {countries.status === 'success' && getCountriesList(countries.countriesList, listStyle, countries.showAll)}
+
+      {!countries.showAll && (
+        <div className='mt-4 flex justify-center w-full'>
+          <Button onClick={() => setCountries({ ...countries, showAll: true })}>Show all</Button>
+        </div>
+      )}
     </main>
   );
 }
 
-function getCountriesList(countries: Country[] | null) {
-  if (!countries || countries.length === 0) {
+const initialNumberOfItems = 12;
+
+function getCountriesList(countriesList: Country[] | null, type: 'full' | 'compact', showAll: boolean) {
+  if (!countriesList || countriesList.length === 0) {
     return <div>No countries</div>;
   }
-  return (
+  return type === 'full' ? (
     <div className='flex flex-wrap'>
-      {countries.map((country) => (
+      {countriesList.slice(0, showAll ? undefined : initialNumberOfItems).map((country) => (
         <div className='p-2 w-full sm:w-[50%] xl:w-[33.3%] 2xl:w-[25%]' key={country.cca3}>
           <CountryTile {...country}></CountryTile>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <div className='flex flex-wrap'>
+      {countriesList.slice(0, showAll ? undefined : initialNumberOfItems).map((country) => (
+        <div className='p-2 w-full sm:w-[50%] xl:w-[33.3%] 2xl:w-[25%]' key={country.cca3}>
+          <CountryListItem {...country}></CountryListItem>
         </div>
       ))}
     </div>
