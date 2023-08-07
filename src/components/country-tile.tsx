@@ -1,5 +1,5 @@
 import { Country } from '@/apis/countries';
-import { Card, Heading, Image, Tag, Text } from '@chakra-ui/react';
+import { Card, Heading, Image, Skeleton, Tag, Text } from '@chakra-ui/react';
 import styles from './country-tile.module.scss';
 
 export default function CountryTile(country: Country) {
@@ -20,6 +20,11 @@ export default function CountryTile(country: Country) {
         className={`rounded-lg max-w-2xs max-h-[13rem] mb-4 ${styles.flag}`}
         objectFit='contain'
         align='left top'
+        fallback={
+          <div className='max-w-2xs min-h-[10.66rem] mb-4'>
+            <Skeleton width='100%' height='100%' rounded='lg'></Skeleton>
+          </div>
+        }
       />
       <Text>Subregion: {country.subregion}</Text>
       <Text>Capital: {country.capital.join(', ')}</Text>
