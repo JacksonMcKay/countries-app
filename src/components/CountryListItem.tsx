@@ -1,20 +1,25 @@
-import { Country } from '@/apis/countries';
-import { Card, Heading, Text } from '@chakra-ui/react';
+import { CountrySummary } from '@/apis/countries';
+import { Card, Heading, LinkBox, LinkOverlay, Text } from '@chakra-ui/react';
+import NextLink from 'next/link';
 
-export function CountryListItem(country: Country) {
+export function CountryListItem(country: CountrySummary) {
   return (
-    <Card className='p-3' direction='row' alignItems='center'>
-      <Text className='ml-1 mr-3' fontSize='4xl' aria-hidden='true'>
-        {country.flag}
-      </Text>
-      <div>
-        <Heading as='h2' size='md'>
-          {country.name.common}
-        </Heading>
+    <LinkBox h='full'>
+      <Card className='p-3 h-full' direction='row' alignItems='center'>
+        <Text className='ml-1 mr-3' fontSize='4xl' aria-hidden='true'>
+          {country.flag}
+        </Text>
         <div>
-          {country.continents.join(', ')} ({country.subregion})
+          <Heading as='h2' size='md'>
+            <LinkOverlay as={NextLink} href={`/country/${country.cca3}`}>
+              {country.name.common}
+            </LinkOverlay>
+          </Heading>
+          <div>
+            {country.continents.join(', ')} ({country.subregion})
+          </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </LinkBox>
   );
 }
