@@ -42,6 +42,9 @@ export interface Country extends CountrySummary {
   maps: {
     [key in 'googleMaps' | 'openStreetMaps']: string;
   };
+  languages: {
+    [key: string]: string;
+  };
 }
 
 const timeoutMillis = 3000;
@@ -72,7 +75,7 @@ export async function getCountryByCca3(
 ): Promise<{ country: Country; status: 'success' } | { status: 'error' }> {
   try {
     const requestUrl = useRealApi
-      ? `${baseUrl}/alpha/${cca3}?fields=name,cca3,flag,flags,continents,subregion,capital,unMember,landlocked,independent,currencies,population,tld,demonyms,maps`
+      ? `${baseUrl}/alpha/${cca3}?fields=name,cca3,flag,flags,continents,subregion,capital,unMember,landlocked,independent,currencies,population,tld,demonyms,maps,languages`
       : `${mockBaseUrl}/mock-countries?cca3=${cca3}`;
 
     const response = await fetch(requestUrl, { signal: AbortSignal.timeout(timeoutMillis) });

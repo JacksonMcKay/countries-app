@@ -104,6 +104,10 @@ export default function CountryDetails() {
                     <Td>{countryData.country.capital.join(', ')}</Td>
                   </Tr>
                   <Tr>
+                    <Td>Languages</Td>
+                    <Td>{Object.values(countryData.country.languages).join(', ')}</Td>
+                  </Tr>
+                  <Tr>
                     <Td>Currency</Td>
                     <Td>
                       {Object.entries(countryData.country.currencies)
@@ -115,10 +119,6 @@ export default function CountryDetails() {
                     <Td>Population</Td>
                     <Td>{Intl.NumberFormat().format(countryData.country.population)}</Td>
                   </Tr>
-                  <Tr>
-                    <Td>TLD</Td>
-                    <Td>{countryData.country.tld.join(', ')}</Td>
-                  </Tr>
                   {getDemonyms(countryData.country.demonyms)}
                   <Tr>
                     <Td>Maps</Td>
@@ -126,6 +126,10 @@ export default function CountryDetails() {
                       <ExternalLink href={countryData.country.maps.googleMaps}>Google Maps</ExternalLink>,{' '}
                       <ExternalLink href={countryData.country.maps.openStreetMaps}>Open Street Maps</ExternalLink>
                     </Td>
+                  </Tr>
+                  <Tr>
+                    <Td>TLD</Td>
+                    <Td>{countryData.country.tld.join(', ')}</Td>
                   </Tr>
                 </Tbody>
               </Table>
