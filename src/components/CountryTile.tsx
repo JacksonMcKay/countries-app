@@ -1,6 +1,6 @@
 import { Country } from '@/apis/countries';
 import { Card, Heading, Image, Skeleton, Tag, Text } from '@chakra-ui/react';
-import styles from './country-tile.module.scss';
+import styles from './CountryTile.module.scss';
 
 export default function CountryTile(country: Country) {
   const tags = getTags(country);

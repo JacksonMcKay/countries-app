@@ -1,7 +1,7 @@
 import { Country, getAllCountries } from '@/apis/countries';
-import { CountryListItem } from '@/components/country-list-item';
-import CountryTile from '@/components/country-tile';
-import { TabButton } from '@/components/tab-button';
+import { CountryListItem } from '@/components/CountryListItem';
+import CountryTile from '@/components/CountryTile';
+import { TabButton } from '@/components/TabButton';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import {
   Alert,
