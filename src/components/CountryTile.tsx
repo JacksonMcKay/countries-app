@@ -10,15 +10,13 @@ export default function CountryTile(country: CountrySummary) {
       <Card className='p-4 h-full'>
         <div className='w-full flex justify-between items-center mb-1'>
           <Heading as='h2' size='lg'>
-            <LinkOverlay as={NextLink} href={`/country/${country.cca3}`}>
-              {country.name.common}
-            </LinkOverlay>
+            {country.name.common}
           </Heading>
           <Text className='ml-1'>{country.continents.join(', ')}</Text>
         </div>
 
         {/* Another overlay here as for some reason the image couldn't be clicked without it */}
-        <LinkOverlay as={NextLink} href={`/country/${country.cca3}`}>
+        <LinkOverlay as={NextLink} href={`/country/${country.cca3}`} aria-label={`${country.name.common} flag`}>
           <Image
             src={country.flags.svg}
             alt={country.flags.alt}
