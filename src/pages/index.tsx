@@ -33,6 +33,7 @@ export default function Home() {
       <Head>
         <title>Countries app</title>
         <meta name='description' content='An app for finding information about a country' />
+        <link rel='preconnect' href='https://restcountries.com' />
       </Head>
       {countries.status === 'error' && (
         <div className='mt-4 flex justify-center w-full'>
