@@ -4,9 +4,9 @@ An app which displays various information about countries, built on the [restcou
 
 ## Why does this exist?
 
-To demonstrate that I can write code to any prospective employers and to skill up in React/Next.js.
+RDD (Resume Driven Development) - to skill up in React/Next.js.
 
-## Why did you choose Next.js?
+## Why Next.js?
 
 To round out my skillset more (as I'm more experienced in Angular) and because it provides a nice structure to build React applications in (not to mention the cool static and server-side rendering capabilities to get great Lighthouse scores).
 
