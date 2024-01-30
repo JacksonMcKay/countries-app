@@ -16,7 +16,7 @@ export function CountryListItem(country: CountrySummary) {
             </LinkOverlay>
           </Heading>
           <div>
-            {country.continents.join(', ')} ({country.subregion})
+            {country.continents.join(', ')} {country.subregion ? `(${country.subregion})`: ''}
           </div>
         </div>
       </Card>

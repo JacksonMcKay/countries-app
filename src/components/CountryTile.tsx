@@ -30,7 +30,7 @@ export default function CountryTile(country: CountrySummary) {
             }
           />
         </LinkOverlay>
-        <Text>Subregion: {country.subregion}</Text>
+        <Text>Subregion: {country.subregion || 'N/A'}</Text>
         <Text>Capital: {country.capital.join(', ')}</Text>
         <CountryTags {...country} alignItemsEnd={true}/>
       </Card>

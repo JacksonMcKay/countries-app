@@ -16,10 +16,10 @@ import {
   Td,
   Tr,
 } from '@chakra-ui/react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styles from '../../components/CountryTile.module.scss';
-import Head from 'next/head';
 
 export default function CountryDetails() {
   const router = useRouter();
@@ -66,7 +66,9 @@ export default function CountryDetails() {
               name='description'
               content={`${countryData.country.flag} ${
                 countryData.country.name.common
-              }: ${countryData.country.continents.join(', ')} - ${countryData.country.subregion}`}
+              }: ${countryData.country.continents.join(', ')} ${
+                countryData.country.subregion ? `- ${countryData.country.subregion}` : ''
+              }`}
             />
           </Head>
           <Container>
@@ -97,7 +99,7 @@ export default function CountryDetails() {
                   </Tr>
                   <Tr>
                     <Td>Subregion</Td>
-                    <Td>{countryData.country.subregion}</Td>
+                    <Td>{countryData.country.subregion || 'N/A'}</Td>
                   </Tr>
                   <Tr>
                     <Td>Capital</Td>
