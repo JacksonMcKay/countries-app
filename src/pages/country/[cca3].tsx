@@ -75,7 +75,7 @@ export default function CountryDetails() {
             <Heading as='h2' size='lg'>
               {countryData.country.name.common}
             </Heading>
-            <div className='flex items-end mb-4 justify-between'>
+            <div className='flex items-end mb-4 justify-between gap-1'>
               <Image
                 src={countryData.country.flags.svg}
                 alt={countryData.country.flags.alt}
